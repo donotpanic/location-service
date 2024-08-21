@@ -2,7 +2,7 @@ import os
 import re
 import requests
 
-api_key = os.environ.get('location_api_key')
+api_key = os.environ.get('LOCATION_API_KEY')
 
 
 def get_by_city(city, country_code='US'):
