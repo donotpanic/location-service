@@ -51,6 +51,8 @@ def get_lat_lon(*locations, country_code='US'):
     results = []
     keys = ["name", "lat", "lon"]
 
+    # TODO: Wrap in Try/Except for improved error handling
+    # TODO: User friendly message for api_key invalid (common)
     for loc in locations:
         if re.fullmatch(r'\d{5}', loc):
             data = get_by_zipcode(loc, country_code)

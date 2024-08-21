@@ -64,3 +64,7 @@ def test_command_line_utility(monkeypatch, capsys, cli_args, expected_output):
 
     for line in expected_output:
         assert line in captured.out
+
+# TODO: Add test cases for LAT/LON verification
+# TODO: Add test case for API KEY not found
+# TODO: Add additional error handling test cases
