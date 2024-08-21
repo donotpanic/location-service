@@ -65,6 +65,16 @@ def test_command_line_utility(monkeypatch, capsys, cli_args, expected_output):
     for line in expected_output:
         assert line in captured.out
 
+def test_command_line_utility_with_invalid_city(monkeypatch, capsys):
+    city = "InvalidCity"
+    monkeypatch.setattr('sys.argv', ['program_name'] + [city])
+
+    main()
+
+    captured = capsys.readouterr()
+
+    assert f"Location: {city} - Data could not be retrieved." in captured.out
+
 # TODO: Add test cases for LAT/LON verification
 # TODO: Add test case for API KEY not found
 # TODO: Add additional error handling test cases
