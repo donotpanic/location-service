@@ -5,6 +5,11 @@ import requests
 
 api_key = os.environ.get('LOCATION_API_KEY')
 
+class ApiKeyInvalid(Exception):
+    pass
+
+class ApiKeyMissing(Exception):
+    pass
 
 def get_by_city(city, country_code='US'):
     url = "http://api.openweathermap.org/geo/1.0/direct"
@@ -15,6 +20,8 @@ def get_by_city(city, country_code='US'):
         "appid": api_key
     }
 
+    if api_key is None: raise ApiKeyMissing("API key is missing")
+
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
@@ -24,6 +31,8 @@ def get_by_city(city, country_code='US'):
         else:
             print("No data returned for the specified city.")
             return None
+    elif response.status_code == 401:
+        raise ApiKeyInvalid
     else:
         print(f"Request failed with status code {response.status_code}")
         print(response.text)
@@ -57,8 +66,10 @@ def get_lat_lon(*locations, country_code='US'):
     for loc in locations:
         if re.fullmatch(r'\d{5}', loc):
             data = get_by_zipcode(loc, country_code)
-        else:
+        elif re.fullmatch(r"^[A-Za-z]+(?:[\s-][A-Za-z]+)*, [A-Z]{2}$", loc):
             data = get_by_city(loc, country_code)
+        else:
+            data = None
 
         if data:
             result = {key: data.get(key) for key in keys if key in data}

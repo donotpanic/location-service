@@ -3,7 +3,7 @@ from location_service import main, get_lat_lon
 
 
 @pytest.mark.parametrize("location_input, expected_name", [
-    ("San Francisco", "San Francisco"),
+    ("San Francisco, CA", "San Francisco"),
     ("94103", "San Francisco"),
 ])
 def test_valid_response(location_input, expected_name):
@@ -15,6 +15,8 @@ def test_valid_response(location_input, expected_name):
 @pytest.mark.parametrize("location_input", [
     ("InvalidCity"),
     ("00000"),
+    ("San Francisco"),
+    ("902100")
 ])
 def test_invalid_city(location_input):
     result = get_lat_lon(location_input)
@@ -37,7 +39,7 @@ def test_empty_input():
 
 
 def test_whitespace_city():
-    result = get_lat_lon(" San Francisco  ")
+    result = get_lat_lon(" San Francisco, CA  ")
     assert result[0].get("name") == "San Francisco"
 
 
