@@ -1,3 +1,4 @@
+import argparse
 import os
 import re
 import requests
@@ -66,9 +67,6 @@ def get_lat_lon(*locations, country_code='US'):
             results.append(None)
 
     return results
-
-
-import argparse
 
 
 def main():
